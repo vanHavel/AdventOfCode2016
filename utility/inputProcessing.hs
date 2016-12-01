@@ -12,7 +12,8 @@ dropSpaces = dropElem ' '
 splitOn :: Eq a => a -> [a] -> [[a]]
 splitOn _ [] = []
 splitOn x l@(y:ys) | x == y = splitOn x ys
-                   | otherwise = (takeWhile (/= x) l) : (splitOn x $ dropWhile (/= x) l)
+                   | otherwise = beforeSplit : (splitOn x fromSplit)
+                   where (beforeSplit, fromSplit) = span (/=x) l
 
 -- split string on comma
 splitOnComma :: String -> [String]
