@@ -35,6 +35,7 @@ initialLocation = Location {
     direction = North
 }  
 
+-- the monad for the trip through the city: a Writer that writes all visited positions on top of a State that stores the current location
 type Walker = WriterT [(Int, Int)] (State Location)
 
 -- solve problems of day 1 and 2
