@@ -18,3 +18,7 @@ splitOn x l@(y:ys) | x == y = splitOn x ys
 -- split string on comma
 splitOnComma :: String -> [String]
 splitOnComma = splitOn ','
+
+-- split string on space
+splitOnSpace :: String -> [String]
+splitOnSpace = splitOn ' '
