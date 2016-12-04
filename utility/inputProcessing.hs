@@ -22,3 +22,7 @@ splitOnComma = splitOn ','
 -- split string on space
 splitOnSpace :: String -> [String]
 splitOnSpace = splitOn ' '
+
+-- split string on dash
+splitOnDash :: String -> [String]
+splitOnDash = splitOn '-'
