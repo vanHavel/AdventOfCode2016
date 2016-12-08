@@ -31,3 +31,9 @@ countElems (x : xs) = case Map.lookup x m of
                          Nothing -> Map.insert x 1 m
                          Just c  -> Map.insert x (c + 1) m
                       where m = countElems xs
+                      
+-- rotate a list by n steps to the right
+rotate :: Int -> [a] -> [a]
+rotate n [] = []
+rotate 0 xs = xs
+rotate n xs = rotate (n-1) $ (last xs) : (init xs)

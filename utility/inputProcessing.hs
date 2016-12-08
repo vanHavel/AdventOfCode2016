@@ -26,3 +26,11 @@ splitOnSpace = splitOn ' '
 -- split string on dash
 splitOnDash :: String -> [String]
 splitOnDash = splitOn '-'
+
+-- split string on x
+splitOnCross :: String -> [String]
+splitOnCross = splitOn 'x'
+
+-- split string on =
+splitOnEquals :: String -> [String]
+splitOnEquals = splitOn '='
