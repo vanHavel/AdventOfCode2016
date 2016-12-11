@@ -1,0 +1,4 @@
+gen 1, chip 1, gen 2, gen 3, gen 6, gen 7, chip 6, chip 7
+chip 2, chip 3
+gen 4, chip 4, gen 5, chip 5
+

@@ -37,3 +37,8 @@ rotate :: Int -> [a] -> [a]
 rotate n [] = []
 rotate 0 xs = xs
 rotate n xs = rotate (n-1) $ (last xs) : (init xs)
+
+-- return list of all pairs including for all elements x,y the pairs (x,x) but only one of (x,y),(y,x)
+pairs :: [a] -> [(a,a)]
+pairs [] = []
+pairs l@(x:xs) = (zip (repeat x) l) ++ (pairs xs)
