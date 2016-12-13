@@ -1,6 +1,5 @@
 module Utility.AStar where
 
-import Data.Bits 
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Data.List
