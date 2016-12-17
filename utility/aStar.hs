@@ -22,27 +22,38 @@ data SearchState a = SearchState {
     closed :: Set a
 }
 -- heuristic for the problem: manhattan distance
-type Heuristic a = a -> a -> Int
+type Heuristic a = a -> Int
+-- function which checks if a goal was reached
+type GoalTest a = a -> Bool
 
--- A* search returning length of minimal path to solution
+-- A* search returning length of minimal path to solution, with a single final state
 aStarSearch :: (Ord a) => a -> a -> Heuristic a -> SuccFun a -> Int
-aStarSearch initial final h succFun = evalState (runAStar final h succFun) 
+aStarSearch initial final h succFun = fst $ evalState (runAStar h succFun (== final)) 
     (SearchState {
-        open = [Node {getF = (h initial final), getC = 0, getVal = initial}], 
+        open = [Node {getF = (h initial), getC = 0, getVal = initial}], 
         closed = Set.empty
     })
-runAStar :: (Ord a) => a -> Heuristic a -> SuccFun a -> State (SearchState a) Int
-runAStar final h succFun = do
+-- A* serach returning length of minimal path to solution and final state reached. Allows several final states
+genAStarSearch :: (Ord a) => a -> Heuristic a -> SuccFun a -> GoalTest a -> (Int, a)
+genAStarSearch initial h succFun goal = evalState (runAStar h succFun goal) 
+    (SearchState {
+        open = [Node {getF = (h initial), getC = 0, getVal = initial}], 
+        closed = Set.empty
+    })
+    
+-- run A*, returning cost of best solution and the final state reached
+runAStar :: (Ord a) => Heuristic a -> SuccFun a -> GoalTest a -> State (SearchState a) (Int, a)
+runAStar h succFun goal = do
     lists <- get
     let Node f c next = head $ open lists
     -- check for goal
-    if next == final 
-        then return c
+    if goal next  
+        then return (c, next)
         -- check if node already visited
         else if elem next (closed lists) 
             then do
                 modify (\lists -> lists{open = tail $ open lists})
-                runAStar final h succFun
+                runAStar h succFun goal
             else do
                 -- add to closed list
                 modify (\lists -> lists{closed = (Set.insert next (closed lists))})
@@ -52,7 +63,7 @@ runAStar final h succFun = do
                     insertSorted = insertBy (compare `on` (\node -> getF node))
                     newNode new = Node {getF = fNew new, getC = c + 1, getVal = new}
                     -- f value for successors, with path max correction
-                    fNew new = maximum[c + 1 + (h new final), f]
+                    fNew new = maximum[c + 1 + (h new), f]
                 modify (\lists -> lists{open = newOpen})
                 -- continue
-                runAStar final h succFun
+                runAStar h succFun goal
