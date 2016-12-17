@@ -58,4 +58,4 @@ containsFive s cand = isInfixOf (replicate 5 $ ch cand) s
 
 -- hash for a number of times
 stretchHash :: Int -> ByteString -> ByteString
-stretchHash n bs = iterate (Hex.encode .MD5.hash) bs!!n
+stretchHash n bs = iterate (Hex.encode . MD5.hash) bs!!n
