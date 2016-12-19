@@ -38,7 +38,19 @@ rotate n [] = []
 rotate 0 xs = xs
 rotate n xs = rotate (n-1) $ (last xs) : (init xs)
 
+-- rotate a list by n steps to the left
+rotateLeft :: Int -> [a] -> [a]
+rotateLeft n [] = []
+rotateLeft 0 xs = xs
+rotateLeft n xs = (drop n xs) ++ (take n xs)
+
 -- return list of all pairs including for all elements x,y the pairs (x,x) but only one of (x,y),(y,x)
 pairs :: [a] -> [(a,a)]
 pairs [] = []
 pairs l@(x:xs) = (zip (repeat x) l) ++ (pairs xs)
+
+-- drop every second element of list
+dropEverySecond :: [a] -> [a]
+dropEverySecond [] = []
+dropEverySecond [x] = [x]
+dropEverySecond (x:y:xs) = x:(dropEverySecond xs) 
