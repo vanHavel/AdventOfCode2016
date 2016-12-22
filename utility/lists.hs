@@ -42,7 +42,8 @@ rotate n xs = rotate (n-1) $ (last xs) : (init xs)
 rotateLeft :: Int -> [a] -> [a]
 rotateLeft n [] = []
 rotateLeft 0 xs = xs
-rotateLeft n xs = (drop n xs) ++ (take n xs)
+rotateLeft n xs | n <= length xs = (drop n xs) ++ (take n xs)
+                | otherwise = rotateLeft (n `mod` (length xs)) xs
 
 -- return list of all pairs including for all elements x,y the pairs (x,x) but only one of (x,y),(y,x)
 pairs :: [a] -> [(a,a)]
@@ -54,3 +55,15 @@ dropEverySecond :: [a] -> [a]
 dropEverySecond [] = []
 dropEverySecond [x] = [x]
 dropEverySecond (x:y:xs) = x:(dropEverySecond xs) 
+
+-- exchange element at specified position with given element
+setPos :: Int -> a -> [a] -> [a]
+setPos _ _ [] = []
+setPos 0 y (x:xs) = y:xs
+setPos n y (x:xs) = x:(setPos (n-1) y xs)
+
+-- insert into list at given index
+insertAt :: Int -> a -> [a] -> [a]
+insertAt 0 y xs = y:xs
+insertAt _ _ [] = []
+insertAt n y (x:xs) = x:(insertAt (n-1) y xs)
