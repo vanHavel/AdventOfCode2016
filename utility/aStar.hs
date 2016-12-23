@@ -21,7 +21,7 @@ data SearchState a = SearchState {
     -- closed list of visited states
     closed :: Set a
 }
--- heuristic for the problem: manhattan distance
+-- heuristic for the problem
 type Heuristic a = a -> Int
 -- function which checks if a goal was reached
 type GoalTest a = a -> Bool
